@@ -9,9 +9,10 @@
     /* --colm-height : 70vh; */
     --hero-height : 80vh;
     --hero-width : 100vw;
-    --board-size : 80%;
+    --board-size : 90%;
     /* --board-width : 40vw; */
-
+    --controls-height: 45vh;
+    --controls-width: 45vw;
 }
 *{
     background-color: var(--pr-color);
@@ -58,8 +59,8 @@
     background-color: var(--sc-color);
     display: flex;
     flex-direction: column;
-    height: 50vh;
-    width: 40vw;
+    height: var(--controls-height);
+    width: var(--controls-width);
     border: 2px solid var(--border-color);
 }
 .pos{
@@ -69,7 +70,7 @@
     grid-template-columns: repeat(2,1fr);
     align-items: center;
     justify-content: space-evenly;
-    height: 12vh;
+    height: 25%;
     /* width: 40vw;    */
     font-weight: 1000;
     font-size: 20px;
@@ -80,8 +81,8 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-around;
-    height: 38vh;
-    width: 40vw;
+    height: 75%;
+    /* width: 40vw; */
 }
 .move button{
     width: 100px;
@@ -100,7 +101,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 40vw;
+    width: 100%;
 }
 .down button {
     transform: rotate(180deg);
@@ -111,7 +112,7 @@
     margin-top: 5px;
     object-fit: fill;
 }
-.colms :hover{
+.cell :hover{
     cursor: pointer;
 }
 .left-right img{
