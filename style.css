@@ -5,12 +5,12 @@
     --hero-bg-color: #DCC3AA;
     --sc2-color: #810B38;
     --active-color : #faf602;
-    --cell-height: 7vh;
-    --colm-height : 70vh;
+    /* --cell-height: 7vh; */
+    /* --colm-height : 70vh; */
     --hero-height : 80vh;
     --hero-width : 100vw;
-    --board-height : 70vh;
-    --board-width : 40vw;
+    --board-size : 80%;
+    /* --board-width : 40vw; */
 
 }
 *{
@@ -37,21 +37,21 @@
     display: grid;
     grid-template-columns: repeat(15,1fr);
     grid-template-rows: repeat(15,1fr);
-    height: var(--board-height);
-    width: var(--board-width);
+    height: var(--board-size);    
+    aspect-ratio: 1/1;
     border: 1px solid var(--border-color);
 }
-.colms{
+/* .colms{
     display: flex;
     flex-direction: column;
-    height: var(--colm-height);
-}
+    height: var(--colm-height); 
+} */
 .cell{
     background-color:  var(--pr-color);
     display: flex;
     justify-content: center;
     z-index: 1000;
-    height: var(--colm-height);
+    /* height: var(--cell-height); */
     border: 1px solid var(--border-color);
 }
 .controls{
