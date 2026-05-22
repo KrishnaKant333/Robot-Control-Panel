@@ -19,19 +19,23 @@
                 <div class="stp">Steps Taken : 0</div>
                 <div class="battery">Battery Level : 100</div>
             </div>
-            <div class="move">
-                <div class="up"><button onclick="movement('up')">^</button></div>
+            <div class="move" id="move">
+                <div class="up"><button class="movement" onclick="movement('up')">^</button></div>
                 <div class="left-right">
-                    <span class="left"><button onclick="movement('left')"><</button></span>
+                    <span class="left"><button class="movement" onclick="movement('left')"><</button></span>
                     <span class="autopilot" id="auto">
                         <span>
                             <img src="assets/robot-svgrepo-com.svg" alt="robot-icon">
                         </span>
                         <span>Autopilot Mode</span>
                     </span>
-                    <span class="right"><button onclick="movement('right')">></button></span>
+                    <span class="stop" id="stop">
+                        <span class="stop-sign"><img src="assets/stop-signs-svgrepo-com.svg" alt="Stop Sign"></span>
+                        <span>STOP</span>
+                    </span>
+                    <span class="right"><button class="movement" onclick="movement('right')">></button></span>
                 </div>
-                <div class="down"><button onclick="movement('down')">^</button></div>
+                <div class="down"><button class="movement" onclick="movement('down')">^</button></div>
             </div>
         </div>
     </div>
