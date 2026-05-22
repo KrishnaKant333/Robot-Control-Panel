@@ -1,0 +1,128 @@
+:root{
+    --pr-color: #541A1A;
+    --sc-color: #F1E2D1;
+    --border-color: black;
+    --hero-bg-color: #DCC3AA;
+    --sc2-color: #810B38;
+    --active-color : #faf602;
+    --cell-height: 7vh;
+    --colm-height : 70vh;
+    --hero-height : 80vh;
+    --hero-width : 100vw;
+    --board-height : 70vh;
+    --board-width : 40vw;
+
+}
+*{
+    background-color: var(--pr-color);
+    margin: 0px;
+    padding: 0px;
+    color: var(--hero-bg-color);
+}
+.heading{
+    color: var(--sc-color);
+    display: flex;
+    justify-content: center;
+    padding: 2vh;
+}
+.hero{
+    background-color: var(--hero-bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    height: var(--hero-height);
+    width: var(--hero-width);
+}
+.board{
+    display: grid;
+    grid-template-columns: repeat(15,1fr);
+    grid-template-rows: repeat(15,1fr);
+    height: var(--board-height);
+    width: var(--board-width);
+    border: 1px solid var(--border-color);
+}
+.colms{
+    display: flex;
+    flex-direction: column;
+    height: var(--colm-height);
+}
+.cell{
+    background-color:  var(--pr-color);
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    height: var(--colm-height);
+    border: 1px solid var(--border-color);
+}
+.controls{
+    background-color: var(--sc-color);
+    display: flex;
+    flex-direction: column;
+    height: 50vh;
+    width: 40vw;
+    border: 2px solid var(--border-color);
+}
+.pos{
+    display: grid;
+    gap: 10px;
+    padding: 15px;
+    grid-template-columns: repeat(2,1fr);
+    align-items: center;
+    justify-content: space-evenly;
+    height: 12vh;
+    /* width: 40vw;    */
+    font-weight: 1000;
+    font-size: 20px;
+    border-bottom: 2px solid var(--border-color);
+}
+.move{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 38vh;
+    width: 40vw;
+}
+.move button{
+    width: 100px;
+    height: 40px;
+    background-color: var(--sc2-color);
+    font-weight: 1000;
+    font-size: large;
+    border: 2px solid var(--border-color);
+}
+.move button:hover{
+    translate: 2px 2px;
+    background-color: gray;
+    cursor: pointer;
+}
+.left-right{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 40vw;
+}
+.down button {
+    transform: rotate(180deg);
+}
+
+.cell img{
+    height: 3vh;
+    margin-top: 5px;
+    object-fit: fill;
+}
+.colms :hover{
+    cursor: pointer;
+}
+.left-right img{
+    height: 8vh;
+}
+.autopilot{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.autopilot :hover{
+    cursor: pointer;
+}

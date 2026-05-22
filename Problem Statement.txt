@@ -1,0 +1,17 @@
+Assigned Project: Interactive Robot Control Panel (Web-Based Simulator)
+
+Project Description: Build a browser-based robot control dashboard where a user can control a virtual robot on a 2D grid using buttons and keyboard inputs. The robot should respond to commands in real-time using DOM manipulation.
+
+Key Deliverables
+Robot Grid World — Create a 2D grid (15x15) on a webpage where a robot icon moves cell by cell
+Control Panel — Buttons for Forward, Backward, Left, Right, Stop + keyboard arrow key support (DOM event listeners)
+Obstacle Placement — Let the user click on grid cells to place/remove obstacles; robot cannot pass through them
+Status Dashboard — Show live robot stats using DOM: Current Position (x, y), Direction Facing, Steps Taken, Battery Level (decreases each move)
+Collision Detection — Robot should detect wall boundaries and obstacles and display an alert/message on the page
+Auto-Patrol Mode — A button that makes the robot automatically move in a square loop until it hits an obstacle (introduces basic autonomous behavior logic)
+Bonus: Add a "breadcrumb trail" showing the path the robot has taken on the grid
+
+Submission
+GitHub repo with all HTML/CSS/JS files and LinkedIn mandatory.
+README explaining the project + the localization concept.
+Deadline: 31st May 2026.
