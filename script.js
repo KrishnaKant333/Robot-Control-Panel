@@ -17,6 +17,8 @@ const stop = document.getElementById("stop");
 
 const board = document.getElementById("board");
 
+const stts = document.getElementById("status");
+
 for (let i = 0; i < 225; i++) {
     const cell = document.createElement("div");
     cell.classList.add("cell");
@@ -46,6 +48,7 @@ function repeating_autopilot() {
     isAutoPilot = false;
     ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
     ap.lastElementChild.style.color = "white";
+    stts.innerHTML=""
 }
 
 function movement(dir) {
@@ -159,6 +162,8 @@ function autopilot() {
             currDirection = (currDirection + 1) % 4;
         }
     }, 500);
+
+    stts.innerHTML = "AutoPilot is ON. Press F to disable."
 }
 
 
@@ -178,10 +183,12 @@ function start_stop() {
             if (battery <= 100) {
                 document.querySelector(".battery").innerHTML = `Battery Level : ${battery}`
                 battery++;
+                stts.innerHTML = "Recharging.... Press Enter/Space to START"
             }
-        }, 2000);
+        }, 2000);        
     }
     else {
+        stts.innerHTML = ""
         clearInterval(stopInterval);
         stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP</span></span>`;
         stop.lastElementChild.style.color = white;
