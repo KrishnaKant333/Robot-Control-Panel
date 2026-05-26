@@ -8,6 +8,7 @@ let steps = 0
 let isStopped = false;
 let isAutoPilot = false;
 let autoPilotInterval;
+let stopInterval;
 
 const index = 15 * y + x;
 
@@ -15,7 +16,6 @@ const ap = document.getElementById("auto");
 const stop = document.getElementById("stop");
 
 const board = document.getElementById("board");
-
 
 for (let i = 0; i < 225; i++) {
     const cell = document.createElement("div");
@@ -36,9 +36,16 @@ function robot_placement() {
 }
 
 function param_update() {
-    document.querySelector(".curr").innerHTML = `Current Position : (${x}, ${y})`
+    document.querySelector(".curr").innerHTML = `Current Position : (${x},${y})`
     document.querySelector(".battery").innerHTML = `Battery Level : ${battery}`
     document.querySelector(".stp").innerHTML = `Steps Taken : ${steps}`
+}
+
+function repeating_autopilot() {
+    clearInterval(autoPilotInterval);
+    isAutoPilot = false;
+    ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
+    ap.lastElementChild.style.color = "white";
 }
 
 function movement(dir) {
@@ -49,14 +56,12 @@ function movement(dir) {
     switch (battery) {
         case 0: {
             alert("No battery!");
-            clearInterval(autoPilotInterval);
-            isAutoPilot = false;
-            ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
-            ap.lastElementChild.style.color = "white";
+            repeating_autopilot()
             break;
         }
         case 20: {
-            alert("Low Battery! STOP to recharge");
+            alert("Low Battery! AutoPilot is Disabled. STOP to Recharge.");
+            repeating_autopilot()
             break;
         }
     }
@@ -112,72 +117,77 @@ document.addEventListener("keydown", (e) => {
         case "d":
             movement('right');
             break;
-    }
-});
-
-document.addEventListener("keypress", (e) => {
-    switch (e.key) {
         case "f":
             autopilot();
             break;
+        case " ":
+        case "Enter":
+            start_stop();
+            break;
     }
-})
+});
 
-autopilot();
+ap.addEventListener("click", autopilot);
+stop.addEventListener("click", start_stop);
 start_stop();
 
 function autopilot() {
-    ap.addEventListener("click", () => {
-        if (isStopped) {
-            return;
+    if (isStopped) {
+        return;
+    }
+    if(battery<=20){
+        return;
+    }
+    if (isAutoPilot) {
+        repeating_autopilot()
+        return;
+    }
+
+    isAutoPilot = true;
+    ap.innerHTML = `<span><img src="assets/activated-robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
+    ap.lastElementChild.style.color = "var(--active-color)";
+
+    let directions = ['right', 'down', 'left', 'up'];
+    let currDirection = Math.floor(Math.random() * 4);
+    let moveCount = 0;
+
+    autoPilotInterval = setInterval(() => {
+        movement(directions[currDirection]);
+        moveCount++;
+        if (moveCount == 3) {
+            moveCount = 0;
+            currDirection = (currDirection + 1) % 4;
         }
-
-        if (isAutoPilot) {
-            clearInterval(autoPilotInterval);
-            isAutoPilot = false;
-            ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
-            ap.lastElementChild.style.color = "white";
-            return;
-        }
-
-        isAutoPilot = true;
-        ap.innerHTML = `<span><img src="assets/activated-robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
-        ap.lastElementChild.style.color = "var(--active-color)";
-
-        let directions = ['right', 'down', 'left', 'up'];
-        let currDirection = Math.floor(Math.random() * 4);
-        let moveCount = 0;
-
-        autoPilotInterval = setInterval(() => {
-            movement(directions[currDirection]);
-            moveCount++;
-            if (moveCount == 3) {
-                moveCount = 0;
-                currDirection = (currDirection + 1) % 4;
-            }
-        }, 500);
-    });
+    }, 500);
 }
+
 
 function start_stop() {
-    stop.addEventListener("click", () => {
-        isStopped = !isStopped;
-        if (isStopped) {
-            clearInterval(autoPilotInterval);
-            isAutoPilot = false;
+    isStopped = !isStopped;
+    if (isStopped) {
+        clearInterval(autoPilotInterval);
+        isAutoPilot = false;
 
-            stop.innerHTML = `<span><img src="assets/activated-stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOPPED</span></span>`;
-            stop.lastElementChild.style.color = "var(--active-color)";
+        stop.innerHTML = `<span><img src="assets/activated-stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOPPED</span></span>`;
+        stop.lastElementChild.style.color = "var(--active-color)";
 
-            ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
-            ap.lastElementChild.style.color = "white";
-        }
-        else {
-            stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP</span></span>`;
-            stop.lastElementChild.style.color = white;
-        }
-    })
+        ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
+        ap.lastElementChild.style.color = "white";
+
+        stopInterval = setInterval(() => {
+            if (battery <= 100) {
+                document.querySelector(".battery").innerHTML = `Battery Level : ${battery}`
+                battery++;
+            }
+        }, 2000);
+    }
+    else {
+        clearInterval(stopInterval);
+        stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP</span></span>`;
+        stop.lastElementChild.style.color = white;
+    }
 }
+
 
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
