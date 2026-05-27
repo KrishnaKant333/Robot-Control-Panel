@@ -8,6 +8,7 @@ let steps = 0
 let isStopped = false;
 let isAutoPilot = false;
 let autoPilotInterval;
+let autoPilotOffInterval;
 let stopInterval;
 
 const index = 15 * y + x;
@@ -28,6 +29,7 @@ for (let i = 0; i < 225; i++) {
 const cells = document.querySelectorAll(".cell");
 
 cells[index].innerHTML = '<img src="assets/robot-svgrepo-com.svg" alt="robot-icon">';
+document.querySelector(".curr").innerHTML = `Current Position : (${x},${y})`
 
 function robot_placement() {
     cells.forEach(cell => {
@@ -48,7 +50,7 @@ function repeating_autopilot() {
     isAutoPilot = false;
     ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
     ap.lastElementChild.style.color = "white";
-    stts.innerHTML=""
+    stts.innerHTML = ""
 }
 
 function movement(dir) {
@@ -58,7 +60,7 @@ function movement(dir) {
 
     switch (battery) {
         case 0: {
-            alert("No battery!");
+            alert("No battery! STOP to recharge.");
             repeating_autopilot()
             break;
         }
@@ -132,20 +134,18 @@ document.addEventListener("keydown", (e) => {
 
 ap.addEventListener("click", autopilot);
 stop.addEventListener("click", start_stop);
-start_stop();
 
 function autopilot() {
     if (isStopped) {
         return;
     }
-    if(battery<=20){
+    if (battery <= 20) {
         return;
     }
     if (isAutoPilot) {
         repeating_autopilot()
         return;
     }
-
     isAutoPilot = true;
     ap.innerHTML = `<span><img src="assets/activated-robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
     ap.lastElementChild.style.color = "var(--active-color)";
@@ -163,7 +163,7 @@ function autopilot() {
         }
     }, 500);
 
-    stts.innerHTML = "AutoPilot is ON. Press F to disable."
+    stts.innerHTML = "AutoPilot mode ON."
 }
 
 
@@ -180,12 +180,16 @@ function start_stop() {
         ap.lastElementChild.style.color = "white";
 
         stopInterval = setInterval(() => {
-            if (battery <= 100) {
-                document.querySelector(".battery").innerHTML = `Battery Level : ${battery}`
+            if (battery < 100) {
                 battery++;
-                stts.innerHTML = "Recharging.... Press Enter/Space to START"
+                document.querySelector(".battery").innerHTML = `Battery Level : ${battery}`
+                stts.innerHTML = `Recharging.... Press Enter/Space to START`
             }
-        }, 2000);        
+            else{
+                stts.innerHTML = `Full Charge. Press Enter/Space to START`
+            }
+        }, 3000);
+        stts.innerHTML = `Press Enter/Space to START`
     }
     else {
         stts.innerHTML = ""
@@ -194,7 +198,6 @@ function start_stop() {
         stop.lastElementChild.style.color = white;
     }
 }
-
 
 cells.forEach(cell => {
     cell.addEventListener("click", () => {

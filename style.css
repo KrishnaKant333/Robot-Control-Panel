@@ -137,4 +137,6 @@
     font-size: 18px;
     padding-left: 15px ;
     font-weight: bold;
+    background-color: var(--hero-bg-color);
+    color: var(--pr-color);
 }
