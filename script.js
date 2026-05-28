@@ -1,5 +1,7 @@
 console.log("Script.js Initializing..");
 
+let grid_size = 15
+
 let x = 0;
 let y = 0;
 let battery = 100
@@ -8,8 +10,16 @@ let steps = 0
 let isStopped = false;
 let isAutoPilot = false;
 let autoPilotInterval;
-let autoPilotOffInterval;
 let stopInterval;
+
+let obstacles = [];
+let coordstring;
+
+let i = 0;
+let isblocked = false;
+let obsInterval;
+
+let nextX, nextY, nextcoordstring;
 
 const index = 15 * y + x;
 
@@ -20,16 +30,19 @@ const board = document.getElementById("board");
 
 const stts = document.getElementById("status");
 
-for (let i = 0; i < 225; i++) {
+for (let i = 0; i < grid_size * grid_size; i++) {
+    cellx = i % 15;
+    celly = Math.floor(i / 15);
     const cell = document.createElement("div");
     cell.classList.add("cell");
     board.appendChild(cell);
+    cell.dataset.x = cellx;
+    cell.dataset.y = celly;
 }
 
 const cells = document.querySelectorAll(".cell");
 
 cells[index].innerHTML = '<img src="assets/robot-svgrepo-com.svg" alt="robot-icon">';
-document.querySelector(".curr").innerHTML = `Current Position : (${x},${y})`
 
 function robot_placement() {
     cells.forEach(cell => {
@@ -51,6 +64,12 @@ function repeating_autopilot() {
     ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
     ap.lastElementChild.style.color = "white";
     stts.innerHTML = ""
+}
+
+function obs(){
+    obsInterval = setTimeout(() => {
+        stts.innerHTML = `Obstacle encountered!`
+    }, 500);
 }
 
 function movement(dir) {
@@ -76,31 +95,61 @@ function movement(dir) {
     }
 
     if (dir === 'up' && y > 0) {
-        document.querySelector(".dir").innerHTML = "Direction Facing : North";
+        nextX = x;
+        nextY = y - 1;
+        nextcoordstring = `${nextX}-${nextY}`;
+        if (obstacles.includes(nextcoordstring)) {
+            obs();
+            return;
+        }
         y--;
+        document.querySelector(".dir").innerHTML = "Direction Facing : North";
         battery--;
         steps++;
     }
     else if (dir === 'down' && y < 14) {
-        document.querySelector(".dir").innerHTML = "Direction Facing : South";
+        nextX = x;
+        nextY = y + 1;
+        nextcoordstring = `${nextX}-${nextY}`;
+        if (obstacles.includes(nextcoordstring)) {
+            obs();
+            return;
+        }
         y++;
+        document.querySelector(".dir").innerHTML = "Direction Facing : South";
         battery--;
         steps++;
     }
     else if (dir === 'left' && x > 0) {
+        nextX = x - 1;
+        nextY = y;
+        nextcoordstring = `${nextX}-${nextY}`;
+        if (obstacles.includes(nextcoordstring)) {
+            obs();
+            return;
+        }
+        x--;
         document.querySelector(".dir").innerHTML = "Direction Facing : West";
-        x--;;
         battery--;
         steps++;
     }
     else if (dir === 'right' && x < 14) {
-        document.querySelector(".dir").innerHTML = "Direction Facing : East";
+        nextX = x + 1;
+        nextY = y;
+        nextcoordstring = `${nextX}-${nextY}`;
+        if (obstacles.includes(nextcoordstring)) {
+            obs();
+            return;
+        }
         x++;
+        document.querySelector(".dir").innerHTML = "Direction Facing : East";
         battery--;
         steps++;
     }
+
     robot_placement();
     param_update();
+
 }
 
 
@@ -131,9 +180,6 @@ document.addEventListener("keydown", (e) => {
             break;
     }
 });
-
-ap.addEventListener("click", autopilot);
-stop.addEventListener("click", start_stop);
 
 function autopilot() {
     if (isStopped) {
@@ -185,7 +231,7 @@ function start_stop() {
                 document.querySelector(".battery").innerHTML = `Battery Level : ${battery}`
                 stts.innerHTML = `Recharging.... Press Enter/Space to START`
             }
-            else{
+            else {
                 stts.innerHTML = `Full Charge. Press Enter/Space to START`
             }
         }, 3000);
@@ -195,12 +241,31 @@ function start_stop() {
         stts.innerHTML = ""
         clearInterval(stopInterval);
         stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP</span></span>`;
-        stop.lastElementChild.style.color = white;
+        stop.lastElementChild.style.color = "white";
     }
 }
 
+ap.addEventListener("click", autopilot);
+stop.addEventListener("click", start_stop);
+
 cells.forEach(cell => {
     cell.addEventListener("click", () => {
-        cell.style.backgroundColor = 'var(--sc-color)';
+        coordstring = `${cell.dataset.x}-${cell.dataset.y}`;
+        robocoordstring = `${x}-${y}`;
+        // isblocked = !isblocked;
+        if (!isblocked) {
+            if (i < grid_size * grid_size) {
+                if (!obstacles.includes(coordstring)) {
+                    obstacles.push(coordstring);
+                    console.log(obstacles);
+                    i++;
+                }
+            }
+            cell.style.backgroundColor = "var(--sc-color)"
+        }
+        else {
+            cell.style.backgroundColor = "var(--pr-color)"
+        }
+
     })
-});
+})
