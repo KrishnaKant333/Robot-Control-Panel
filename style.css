@@ -13,6 +13,7 @@
     /* --board-width : 40vw; */
     --controls-height: 45vh;
     --controls-width: 45vw;
+    --disabled-color : #757575;
 }
 
 .active{
@@ -139,4 +140,11 @@
     font-weight: bold;
     background-color: var(--hero-bg-color);
     color: var(--pr-color);
+}
+
+.obstacle{
+    background-color: var(--sc-color);
+}
+.trail{
+    background-color: rgb(255, 255, 255, 0.1);
 }
