@@ -107,7 +107,7 @@
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 80%;
+    width: 100%;
 }
 .down button {
     transform: rotate(180deg);

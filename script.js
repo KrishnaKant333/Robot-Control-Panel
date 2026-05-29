@@ -17,6 +17,8 @@ let obstacles = [];
 let coordstring;
 let robocoordstring;
 
+let trailtimeout;
+
 const ap = document.getElementById("auto");
 const stop = document.getElementById("stop");
 
@@ -60,7 +62,7 @@ function statusbar(msg) {
 function stop_autopilot() {
     clearInterval(autoPilotInterval);
     isAutoPilot = false;
-    ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
+    ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode (F)</span></span>`;
     ap.lastElementChild.style.color = "white";
 }
 
@@ -107,7 +109,10 @@ function movement(dir) {
     }
 
     const prevIndex = grid_size * y + x;
-    cells[prevIndex].classList.add("Trail");
+    cells[prevIndex].classList.add("trail");
+    trailtimeout = setTimeout(() => {
+        cells[prevIndex].classList.remove("trail");
+    }, 2000);
     x = nextX;
     y = nextY;
     battery--;
@@ -160,7 +165,7 @@ function autopilot() {
         return;
     }
     isAutoPilot = true;
-    ap.innerHTML = `<span><img src="assets/activated-robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`;
+    ap.innerHTML = `<span><img src="assets/activated-robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode (F)</span></span>`;
     ap.lastElementChild.style.color = "var(--active-color)";
 
     let directions = ['right', 'down', 'left', 'up'];
@@ -181,16 +186,15 @@ function autopilot() {
 
 function disabled_ap() {
     ap.innerHTML = `<span><img src="assets/disabled-robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode</span></span>`
-    ap.lastElementChild.style.color = `#757575`;
+    ap.lastElementChild.style.color = `var(--disabled-color)`;
 }
-
 
 function start_stop() {
     isStopped = !isStopped;
     if (isStopped) {
         stop_autopilot();
 
-        stop.innerHTML = `<span><img src="assets/activated-stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOPPED</span></span>`;
+        stop.innerHTML = `<span><img src="assets/activated-stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOPPED (Enter/Space)</span></span>`;
         stop.lastElementChild.style.color = "var(--active-color)";
         statusbar("Robot Stopped. Press Enter/Space to START.");
         disabled_ap();
@@ -209,7 +213,7 @@ function start_stop() {
     else {
         statusbar("");
         clearInterval(stopInterval);
-        stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP</span></span>`;
+        stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP (Enter/Space)</span></span>`;
         stop.lastElementChild.style.color = "white";
         stop_autopilot();
     }
