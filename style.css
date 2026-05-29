@@ -172,3 +172,9 @@
         font-size: small;
     }
 }
+.footer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+}
