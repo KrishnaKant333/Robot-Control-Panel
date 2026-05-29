@@ -63,7 +63,7 @@ function stop_autopilot() {
     clearInterval(autoPilotInterval);
     isAutoPilot = false;
     ap.innerHTML = `<span><img src="assets/robot-svgrepo-com.svg" alt="robot-icon"></span><span>Autopilot Mode (F)</span></span>`;
-    ap.lastElementChild.style.color = "white";
+    ap.lastElementChild.style.color = "var(--sc-color)";
 }
 
 function movement(dir) {
@@ -214,7 +214,7 @@ function start_stop() {
         statusbar("");
         clearInterval(stopInterval);
         stop.innerHTML = `<span><img src="assets/stop-signs-svgrepo-com.svg" alt="stop"></span><span>STOP (Enter/Space)</span></span>`;
-        stop.lastElementChild.style.color = "white";
+        stop.lastElementChild.style.color = "var(--sc-color)";
         stop_autopilot();
     }
 }
