@@ -48,17 +48,10 @@
     aspect-ratio: 1/1;
     border: 1px solid var(--border-color);
 }
-/* .colms{
-    display: flex;
-    flex-direction: column;
-    height: var(--colm-height); 
-} */
 .cell{
     background-color:  var(--pr-color);
     display: flex;
     justify-content: center;
-    z-index: 1000;
-    /* height: var(--cell-height); */
     border: 1px solid var(--border-color);
 }
 .controls{
@@ -77,7 +70,6 @@
     align-items: center;
     justify-content: space-evenly;
     height: 25%;
-    /* width: 40vw;    */
     font-weight: 1000;
     font-size: 20px;
     border-bottom: 2px solid var(--border-color);
@@ -88,7 +80,6 @@
     align-items: center;
     justify-content: space-around;
     height: 75%;
-    /* width: 40vw; */
 }
 .move button{
     width: 100px;
@@ -147,4 +138,24 @@
 }
 .trail{
     background-color: rgb(255, 255, 255, 0.1);
+}
+
+@media screen and (max-width : 1300px) {
+    .hero{
+        flex-direction: column;
+    }
+    .board{
+        height: 45vh;
+        margin: 5%;
+    }
+    .controls{
+        height: 30vh;
+        width: 40vw;
+    }
+}
+@media screen and (max-width : 1150px) {
+    .controls{
+        height: 30vh;
+        width: 70vw;
+    }
 }
