@@ -168,4 +168,7 @@
         height: 30vh;
         width: 100%;
     }
+    .heading{
+        font-size: small;
+    }
 }
